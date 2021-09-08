@@ -1,5 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchAllPosts, addPost, fetchFeedPosts } from "./postService";
+import {
+  fetchAllPosts,
+  addPost,
+  fetchFeedPosts,
+  likePostAsync,
+  disLikePostAsync,
+} from "./postService";
 
 const initialState = {
   posts: [],
@@ -13,22 +19,6 @@ const postSlice = createSlice({
   name: "post",
   initialState,
   reducers: {
-    updateLikesOnPost: (state, action) => {
-      state.posts = state.posts.map((post) => {
-        if (post._id === action.payload.postId) {
-          post = action.payload.updatedPost;
-        }
-        return post;
-      });
-    },
-    updateLikesOnFollowingPost: (state, action) => {
-      state.followingPosts = state.followingPosts.map((post) => {
-        if (post._id === action.payload.postId) {
-          post = action.payload.updatedPost;
-        }
-        return post;
-      });
-    },
     updateComments: (state, action) => {
       state.posts = state.posts.map((post) => {
         if (post._id === action.payload.postId) {
@@ -76,25 +66,61 @@ const postSlice = createSlice({
     },
     [addPost.fulfilled]: (state, action) => {
       state.posts = state.posts.concat(action.payload.post);
-      state.followingPosts = state.followingPosts.concat(
-        action.payload.followingPost
-      );
-
+      state.followingPosts = state.followingPosts.concat(action.payload.post);
       state.loading = false;
     },
     [addPost.rejected]: (state, action) => {
       state.loading = false;
       state.error = action.payload.error;
     },
+    [likePostAsync.pending]: (state, action) => {
+      state.loading = true;
+    },
+    [likePostAsync.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.posts = state.posts.map((post) => {
+        if (post._id === action.payload.postId) {
+          post = action.payload.updatedPost;
+        }
+        return post;
+      });
+      state.followingPosts = state.followingPosts.map((post) => {
+        if (post._id === action.payload.postId) {
+          post = action.payload.updatedPost;
+        }
+        return post;
+      });
+    },
+    [likePostAsync.rejected]: (state, action) => {
+      state.loading = false;
+      state.error = action.payload.error;
+    },
+    [disLikePostAsync.pending]: (state, action) => {
+      state.loading = true;
+    },
+    [disLikePostAsync.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.posts = state.posts.map((post) => {
+        if (post._id === action.payload.postId) {
+          post = action.payload.updatedPost;
+        }
+        return post;
+      });
+      state.followingPosts = state.followingPosts.map((post) => {
+        if (post._id === action.payload.postId) {
+          post = action.payload.updatedPost;
+        }
+        return post;
+      });
+    },
+    [disLikePostAsync.rejected]: (state, action) => {
+      state.loading = false;
+      state.error = action.payload.error;
+    },
   },
 });
 
-export const {
-  updateComments,
-  updateLikesOnPost,
-  filteredPosts,
-  filteredFollowingPosts,
-  updateLikesOnFollowingPost,
-} = postSlice.actions;
+export const { updateComments, filteredPosts, filteredFollowingPosts } =
+  postSlice.actions;
 
 export default postSlice.reducer;

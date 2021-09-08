@@ -1,21 +1,50 @@
-import React from "react";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addPost } from "../../features/post/postService";
+import { Button } from "../Button";
+import { Flex } from "../Util";
 
-const AddPost = ({ content, setContent, addPostHandeller }) => {
+const AddPost = () => {
+  const [content, setContent] = useState("");
+  const dispatch = useDispatch();
+  const auth = useSelector((state) => state.auth);
+
+  const addPostHandeller = () => {
+    if (content !== "") {
+      dispatch(
+        addPost({
+          postedBy: auth.userInfo._id,
+          content: content,
+          token: auth.userInfo.token,
+        })
+      );
+      setContent("");
+    }
+  };
+
   return (
-    <div>
+    <Flex
+      flexDirection="column"
+      width={["30rem", "35rem", "40rem"]}
+      height={"20rem"}
+      justifyContent="space-evenly"
+      alignItems="center"
+      backgroundColor="white"
+      borderRadius={10}
+    >
       <textarea
-        name=""
-        id=""
-        cols="30"
-        rows="10"
         value={content}
         onChange={(e) => setContent(e.target.value)}
-        maxLength={5}
-      ></textarea>
-      <div>
-        <button onClick={() => addPostHandeller()}>add post</button>
-      </div>
-    </div>
+        className="textArea"
+        placeholder="write here "
+      />
+
+      <Flex width={"95%"} onClick={() => addPostHandeller()}>
+        <Button height={"3rem"} px={16} py={0}>
+          add post
+        </Button>
+      </Flex>
+    </Flex>
   );
 };
 

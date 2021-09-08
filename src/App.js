@@ -6,6 +6,7 @@ import { Home } from "./pages/Home";
 import SignUp from "./pages/SignUp";
 import People from "./pages/People";
 import PostDetail from "./pages/PostDetail";
+import Feed from "./pages/Feed";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <PrivateRoute path="/people" element={<People />} />
         <PrivateRoute path="/" element={<Home />} />
+        <PrivateRoute path="/feed" element={<Feed />} />
         <PrivateRoute path="/post/:postId" element={<PostDetail />} />
         {/* <Route path="/feed"> <PrivateRoute path="/feed" element={<Feed />}/> </Route>
             <Route path="/user"> <PrivateRoute path="/user" element={<Users />}/> </Route>

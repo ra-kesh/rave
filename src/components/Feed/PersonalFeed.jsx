@@ -8,6 +8,10 @@ const PersonalFeed = () => {
   const auth = useSelector((state) => state.auth);
   const post = useSelector((state) => state.post);
 
+  const sortedPosts = post.followingPosts
+    ?.slice()
+    .sort((a, b) => new Date(b["createdAt"]) - new Date(a["createdAt"]));
+
   useEffect(() => {
     dispatch(
       fetchFeedPosts({
@@ -21,7 +25,7 @@ const PersonalFeed = () => {
   return (
     <div>
       <h1>Feeed</h1>
-      {post?.followingPosts?.map((post) => (
+      {sortedPosts?.map((post) => (
         <div key={post._id}>
           <PostCard post={post} />
         </div>

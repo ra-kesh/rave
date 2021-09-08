@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import Layout from "../components/Layout";
 import { loadConnections } from "../features/connection/connectionService";
 
 const People = () => {
@@ -18,7 +19,7 @@ const People = () => {
   }, []);
 
   return (
-    <div>
+    <Layout>
       <h1>People</h1>
       <div>
         <h2>following</h2>
@@ -44,7 +45,7 @@ const People = () => {
           </div>
         ))}
       </div>
-    </div>
+    </Layout>
   );
 };
 

@@ -36,7 +36,3 @@ export const userSignup = createAsyncThunk(
     }
   }
 );
-
-export const userLogout = () => {
-  localStorage.removeItem("userInfo");
-};

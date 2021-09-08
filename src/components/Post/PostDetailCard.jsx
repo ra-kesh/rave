@@ -1,5 +1,10 @@
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { deletePost } from "../../features/post/postApi";
+import {
+  filteredPosts,
+  filteredFollowingPosts,
+} from "../../features/post/postSlice";
+
 import { Flex } from "../Util";
 import FavoriteRoundedIcon from "@material-ui/icons/FavoriteRounded";
 import FavoriteBorderRoundedIcon from "@material-ui/icons/FavoriteBorderRounded";
@@ -9,35 +14,33 @@ import {
   likePostAsync,
 } from "../../features/post/postService";
 
-const PostCard = ({ post }) => {
-  const { _id, likes, postedBy, comments } = post;
+const PostDetailCard = ({ post }) => {
+  const { _id, likes, comments, postedBy } = post;
 
   const auth = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const { token } = auth.userInfo;
 
-  const isLiked = post.likes.find((like) => like.userId === auth.userInfo._id);
+  const isLiked = likes.find((like) => like.userId === auth.userInfo._id);
 
-  // const removePost = async () => {
-  //   const response = await deletePost({ _id, token });
+  const removePost = async () => {
+    const response = await deletePost({ _id, token });
 
-  //   const {
-  //     data: { removedPost },
-  //   } = response;
+    const {
+      data: { removedPost },
+    } = response;
 
-  //   if (removedPost) {
-  //     dispatch(filteredPosts({ removedPost }));
-  //     dispatch(filteredFollowingPosts({ removedPost }));
-  //   } else {
-  //     return {
-  //       error: response,
-  //     };
-  //   }
-  // };
-
+    if (removedPost) {
+      dispatch(filteredPosts({ removedPost }));
+      dispatch(filteredFollowingPosts({ removedPost }));
+    } else {
+      return {
+        error: response,
+      };
+    }
+  };
   const likeHandeller = () => {
     if (isLiked === undefined) {
       dispatch(likePostAsync({ post, auth, token }));
@@ -45,6 +48,7 @@ const PostCard = ({ post }) => {
       dispatch(disLikePostAsync({ post, auth, token }));
     }
   };
+
   return (
     <Flex
       flexDirection="column"
@@ -56,7 +60,7 @@ const PostCard = ({ post }) => {
       <Flex>
         by {postedBy?.name} aka {postedBy?.userName}
       </Flex>
-      <Flex onClick={() => navigate(`/post/${_id}`)}>
+      <Flex>
         <p>{post.content}</p>
       </Flex>
       <Flex>
@@ -77,4 +81,4 @@ const PostCard = ({ post }) => {
   );
 };
 
-export default PostCard;
+export default PostDetailCard;

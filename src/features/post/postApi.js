@@ -82,8 +82,8 @@ export const likePost = async ({ auth, token, post }) => {
   let response = null;
   try {
     response = await axios.post(
-      `${API_URL}/posts/${post._id}/like`,
-      { userId: auth.userInfo._id },
+      `${API_URL}/posts/like`,
+      { postId: post._id },
       config
     );
     return response.data;
@@ -99,13 +99,14 @@ export const disLikePost = async ({ auth, token, post }) => {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-    data: {
-      userId: auth.userInfo._id,
-    },
   };
   let response = null;
   try {
-    response = await axios.delete(`${API_URL}/posts/${post._id}/like`, config);
+    response = await axios.post(
+      `${API_URL}/posts/dislike`,
+      { postId: post._id, userId: auth.userInfo._id },
+      config
+    );
     return response.data;
   } catch (err) {
     response = err.message;

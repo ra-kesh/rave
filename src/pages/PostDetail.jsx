@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
-import PostCard from "../components/Post/PostCard";
+import Layout from "../components/Layout";
+import PostDetailCard from "../components/Post/PostDetailCard";
+import { Flex } from "../components/Util";
 import { addComment, removeComment } from "../features/post/postApi";
 import { updateComments } from "../features/post/postSlice";
 
@@ -48,36 +50,40 @@ const PostDetail = () => {
     }
   };
   return (
-    <div>
-      <h1>post detail</h1>
-      {currentPost && (
-        <div>
-          <PostCard post={currentPost} />
+    <Layout>
+      <Flex background="white" flexDirection="column">
+        <h1>post detail</h1>
+        {currentPost && (
           <div>
-            <textarea
-              name=""
-              id=""
-              cols="30"
-              rows="2"
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              //   maxLength={5}
-            ></textarea>
-            <button onClick={() => commentHandler()}>comment</button>
+            <PostDetailCard post={currentPost} />
+            <div>
+              <textarea
+                name=""
+                id=""
+                cols="30"
+                rows="2"
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+                //   maxLength={5}
+              ></textarea>
+              <button onClick={() => commentHandler()}>comment</button>
+            </div>
+            <div>
+              {currentPost.comments.map((comment) => (
+                <div key={comment._id}>
+                  <p>{comment.text}</p>
+                  {comment.userId === auth.userInfo._id && (
+                    <button onClick={() => deleteComment(comment)}>
+                      delete
+                    </button>
+                  )}
+                </div>
+              ))}
+            </div>
           </div>
-          <div>
-            {currentPost.comments.map((comment) => (
-              <div key={comment._id}>
-                <p>{comment.text}</p>
-                {comment.userId === auth.userInfo._id && (
-                  <button onClick={() => deleteComment(comment)}>delete</button>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-    </div>
+        )}
+      </Flex>
+    </Layout>
   );
 };
 
