@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchAllUsers } from "./userService";
+import { fetchAllUsers, fetchSingleUser } from "./userService";
 
 const initialState = {
   users: [],
@@ -21,6 +21,17 @@ const userSlice = createSlice({
       state.laoding = false;
     },
     [fetchAllUsers.rejected]: (state, action) => {
+      state.loading = false;
+      state.error = action.payload.error;
+    },
+    [fetchSingleUser.pending]: (state) => {
+      state.loading = true;
+    },
+    [fetchSingleUser.fulfilled]: (state, action) => {
+      state.user = action.payload.user;
+      state.laoding = false;
+    },
+    [fetchSingleUser.rejected]: (state, action) => {
       state.loading = false;
       state.error = action.payload.error;
     },

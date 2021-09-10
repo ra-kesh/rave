@@ -49,7 +49,7 @@ const CommentSection = ({ post }) => {
     <Flex flexDirection="column">
       <AddCommentWrapper py="2rem" px="1rem" mt="1rem">
         <Box>
-          <Avatar />
+          <Avatar src={post.postedBy?.avatarImage} />
         </Box>
         <Box width="80%">
           <AddComment post={post} />
@@ -64,7 +64,7 @@ const CommentSection = ({ post }) => {
             px="1rem"
           >
             <Box>
-              <Avatar />
+              <Avatar src={post.postedBy?.avatarImage} />
             </Box>
             <Flex justifyContent="space-between" width="100%">
               <Text>{comment.text}</Text>

@@ -11,3 +11,14 @@ export const getAllUsers = async () => {
   }
   return response;
 };
+
+export const getSingleUser = async (userId) => {
+  let response = null;
+  try {
+    response = await axios.get(`${API_URL}/users/${userId}`);
+    return response.data;
+  } catch (error) {
+    response = error.message;
+  }
+  return response;
+};

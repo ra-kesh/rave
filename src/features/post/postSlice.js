@@ -6,12 +6,14 @@ import {
   likePostAsync,
   disLikePostAsync,
   fetchSinglePost,
+  fetchUserPosts,
 } from "./postService";
 
 const initialState = {
   posts: [],
   followingPosts: [],
   singlePost: {},
+  userPosts: [],
   loading: false,
   error: "",
 };
@@ -22,6 +24,18 @@ const postSlice = createSlice({
   reducers: {
     updateComments: (state, action) => {
       state.posts = state.posts.map((post) => {
+        if (post._id === action.payload.postId) {
+          post = action.payload.updatedPost;
+        }
+        return post;
+      });
+      state.followingPosts = state.followingPosts.map((post) => {
+        if (post._id === action.payload.postId) {
+          post = action.payload.updatedPost;
+        }
+        return post;
+      });
+      state.userPosts = state.userPosts.map((post) => {
         if (post._id === action.payload.postId) {
           post = action.payload.updatedPost;
         }
@@ -62,6 +76,17 @@ const postSlice = createSlice({
       state.loading = false;
       state.error = action.payload.error;
     },
+    [fetchUserPosts.pending]: (state) => {
+      state.loading = true;
+    },
+    [fetchUserPosts.fulfilled]: (state, action) => {
+      state.userPosts = action.payload.userPosts;
+      state.laoding = false;
+    },
+    [fetchUserPosts.rejected]: (state, action) => {
+      state.loading = false;
+      state.error = action.payload.error;
+    },
     [fetchFeedPosts.pending]: (state) => {
       state.loading = true;
     },
@@ -96,18 +121,18 @@ const postSlice = createSlice({
         }
         return post;
       });
-      state.singlePost = () => {
-        if (state.singlePost._id === action.payload.postId) {
-          state.singlePost = action.payload.updatedPost;
+      state.followingPosts = state.followingPosts.map((post) => {
+        if (post._id === action.payload.postId) {
+          post = action.payload.updatedPost;
         }
-        return state.singlePost;
-      };
-      // state.followingPosts = state.followingPosts.map((post) => {
-      //   if (post._id === action.payload.postId) {
-      //     post = action.payload.updatedPost;
-      //   }
-      //   return post;
-      // });
+        return post;
+      });
+      state.userPosts = state.userPosts.map((post) => {
+        if (post._id === action.payload.postId) {
+          post = action.payload.updatedPost;
+        }
+        return post;
+      });
     },
     [likePostAsync.rejected]: (state, action) => {
       state.loading = false;
@@ -124,12 +149,18 @@ const postSlice = createSlice({
         }
         return post;
       });
-      // state.followingPosts = state.followingPosts.map((post) => {
-      //   if (post._id === action.payload.postId) {
-      //     post = action.payload.updatedPost;
-      //   }
-      //   return post;
-      // });
+      state.followingPosts = state.followingPosts.map((post) => {
+        if (post._id === action.payload.postId) {
+          post = action.payload.updatedPost;
+        }
+        return post;
+      });
+      state.userPosts = state.userPosts.map((post) => {
+        if (post._id === action.payload.postId) {
+          post = action.payload.updatedPost;
+        }
+        return post;
+      });
     },
     [disLikePostAsync.rejected]: (state, action) => {
       state.loading = false;

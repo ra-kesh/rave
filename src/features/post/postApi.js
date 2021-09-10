@@ -21,6 +21,22 @@ export const getSinglePost = async (postId) => {
   }
   return response;
 };
+export const getUserPosts = async ({ userId }) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  let response = null;
+  try {
+    response = await axios.get(`${API_URL}/posts/feed/${userId}`, config);
+    return response.data;
+  } catch (error) {
+    response = error.message;
+  }
+  return response;
+};
 export const getFeedPosts = async ({ token }) => {
   const config = {
     headers: {
@@ -31,7 +47,7 @@ export const getFeedPosts = async ({ token }) => {
 
   let response = null;
   try {
-    response = await axios.get(`${API_URL}/posts/feed`, config);
+    response = await axios.get(`${API_URL}/posts/feed/personal`, config);
     return response.data;
   } catch (error) {
     response = error.message;

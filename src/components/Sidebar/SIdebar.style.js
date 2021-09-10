@@ -84,6 +84,16 @@ export const IconWrapper = styled.div`
   margin: 0 1.5rem;
 `;
 
+export const LogoutWrapper = styled(IconWrapper)`
+  display: none;
+
+  @media (min-width: 600px) {
+    ${Navbar}:hover & {
+      display: inline;
+    }
+  }
+`;
+
 export const LinkText = styled.span`
   display: none;
 

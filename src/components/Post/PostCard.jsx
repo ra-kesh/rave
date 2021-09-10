@@ -76,7 +76,7 @@ const PostCard = ({ post }) => {
     >
       <Flex>
         <Box>
-          <Avatar />
+          <Avatar src={postedBy?.avatarImage} />
         </Box>
       </Flex>
       <Flex flexDirection="column" width={"100%"}>

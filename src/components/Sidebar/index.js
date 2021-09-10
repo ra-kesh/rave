@@ -1,5 +1,7 @@
-import { Home, Layers, PlusSquare, User, Users } from "react-feather";
+import { Home, Layers, LogOut, PlusSquare, User, Users } from "react-feather";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { userLogout } from "../../features/auth/authSlice";
 
 import {
   LinkText,
@@ -10,11 +12,16 @@ import {
   IconWrapper,
   NavLogo,
   LogoText,
+  LogoutWrapper,
 } from "./SIdebar.style";
 import "./style.css";
 
 export const Sidebar = ({ setShowModal }) => {
   const navigate = useNavigate();
+  const auth = useSelector((state) => state.auth);
+
+  const dispatch = useDispatch();
+
   return (
     <Navbar>
       <NavUl>
@@ -69,11 +76,17 @@ export const Sidebar = ({ setShowModal }) => {
 
         <Navli>
           <NavLink>
-            <IconWrapper>
+            <IconWrapper onClick={() => navigate("/profile")}>
               {" "}
               <User />
             </IconWrapper>
-            <LinkText>Cats</LinkText>
+            <LinkText onClick={() => navigate(`/user/${auth.userInfo._id}`)}>
+              {auth.userInfo.name}
+            </LinkText>
+            <LogoutWrapper>
+              {" "}
+              <LogOut onClick={() => dispatch(userLogout())} />
+            </LogoutWrapper>
           </NavLink>
         </Navli>
       </NavUl>
