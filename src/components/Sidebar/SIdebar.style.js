@@ -3,7 +3,7 @@ import { space } from "styled-system";
 
 export const Navbar = styled.nav`
   position: fixed;
-  background-color: var(--bg-primary);
+  background-color: var(--color-background);
   transition: width 600ms ease;
   overflow: hidden;
 
@@ -11,6 +11,7 @@ export const Navbar = styled.nav`
     bottom: 0;
     width: 100vw;
     height: 5rem;
+    z-index: 99;
   }
 
   @media (min-width: 600px) {

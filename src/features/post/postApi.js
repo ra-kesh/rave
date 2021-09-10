@@ -11,6 +11,16 @@ export const getAllPosts = async () => {
   }
   return response;
 };
+export const getSinglePost = async (postId) => {
+  let response = null;
+  try {
+    response = await axios.get(`${API_URL}/posts/${postId}`);
+    return response.data;
+  } catch (error) {
+    response = error.message;
+  }
+  return response;
+};
 export const getFeedPosts = async ({ token }) => {
   const config = {
     headers: {
@@ -114,7 +124,7 @@ export const disLikePost = async ({ auth, token, post }) => {
   return response;
 };
 
-export const addComment = async ({ auth, content, currentPost }) => {
+export const addComment = async ({ auth, content, post }) => {
   const config = {
     headers: {
       "Content-Type": "application/json",
@@ -124,9 +134,9 @@ export const addComment = async ({ auth, content, currentPost }) => {
   let response = null;
   try {
     response = await axios.post(
-      `${API_URL}/posts/${currentPost._id}/comment`,
+      `${API_URL}/posts/comment`,
       {
-        userId: auth.userInfo._id,
+        postId: post._id,
         text: content,
       },
       config
@@ -137,22 +147,20 @@ export const addComment = async ({ auth, content, currentPost }) => {
   }
   return response;
 };
-export const removeComment = async ({ auth, comment, currentPost }) => {
+export const removeComment = async ({ auth, comment, post }) => {
   const config = {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${auth.userInfo.token}`,
     },
     data: {
+      postId: post._id,
       commentId: comment._id,
     },
   };
   let response = null;
   try {
-    response = await axios.delete(
-      `${API_URL}/posts/${currentPost._id}/comment`,
-      config
-    );
+    response = await axios.delete(`${API_URL}/posts/comment`, config);
     return response.data;
   } catch (err) {
     response = err.message;

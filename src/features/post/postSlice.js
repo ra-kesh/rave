@@ -5,12 +5,13 @@ import {
   fetchFeedPosts,
   likePostAsync,
   disLikePostAsync,
+  fetchSinglePost,
 } from "./postService";
 
 const initialState = {
   posts: [],
   followingPosts: [],
-  post: {},
+  singlePost: {},
   loading: false,
   error: "",
 };
@@ -50,6 +51,17 @@ const postSlice = createSlice({
       state.loading = false;
       state.error = action.payload.error;
     },
+    [fetchSinglePost.pending]: (state) => {
+      state.loading = true;
+    },
+    [fetchSinglePost.fulfilled]: (state, action) => {
+      state.singlePost = action.payload.post;
+      state.laoding = false;
+    },
+    [fetchSinglePost.rejected]: (state, action) => {
+      state.loading = false;
+      state.error = action.payload.error;
+    },
     [fetchFeedPosts.pending]: (state) => {
       state.loading = true;
     },
@@ -84,12 +96,18 @@ const postSlice = createSlice({
         }
         return post;
       });
-      state.followingPosts = state.followingPosts.map((post) => {
-        if (post._id === action.payload.postId) {
-          post = action.payload.updatedPost;
+      state.singlePost = () => {
+        if (state.singlePost._id === action.payload.postId) {
+          state.singlePost = action.payload.updatedPost;
         }
-        return post;
-      });
+        return state.singlePost;
+      };
+      // state.followingPosts = state.followingPosts.map((post) => {
+      //   if (post._id === action.payload.postId) {
+      //     post = action.payload.updatedPost;
+      //   }
+      //   return post;
+      // });
     },
     [likePostAsync.rejected]: (state, action) => {
       state.loading = false;
@@ -106,12 +124,12 @@ const postSlice = createSlice({
         }
         return post;
       });
-      state.followingPosts = state.followingPosts.map((post) => {
-        if (post._id === action.payload.postId) {
-          post = action.payload.updatedPost;
-        }
-        return post;
-      });
+      // state.followingPosts = state.followingPosts.map((post) => {
+      //   if (post._id === action.payload.postId) {
+      //     post = action.payload.updatedPost;
+      //   }
+      //   return post;
+      // });
     },
     [disLikePostAsync.rejected]: (state, action) => {
       state.loading = false;

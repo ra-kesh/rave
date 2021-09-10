@@ -5,6 +5,7 @@ import {
   addNewPost,
   likePost,
   disLikePost,
+  getSinglePost,
 } from "./postApi";
 
 export const fetchAllPosts = createAsyncThunk(
@@ -31,6 +32,22 @@ export const fetchFeedPosts = createAsyncThunk(
     if (response.followingPosts) {
       return {
         followingPosts: response.followingPosts,
+      };
+    } else {
+      return {
+        error: response,
+      };
+    }
+  }
+);
+
+export const fetchSinglePost = createAsyncThunk(
+  "post/getSinglePost",
+  async (postId) => {
+    const response = await getSinglePost(postId);
+    if (response.post) {
+      return {
+        post: response.post,
       };
     } else {
       return {
