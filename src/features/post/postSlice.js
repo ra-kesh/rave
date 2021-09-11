@@ -52,6 +52,11 @@ const postSlice = createSlice({
         (post) => post._id !== action.payload.removedPost._id
       );
     },
+    filteredUserPosts: (state, action) => {
+      state.userPosts = state.userPosts.filter(
+        (post) => post._id !== action.payload.removedPost._id
+      );
+    },
   },
   extraReducers: {
     [fetchAllPosts.pending]: (state) => {
@@ -169,7 +174,11 @@ const postSlice = createSlice({
   },
 });
 
-export const { updateComments, filteredPosts, filteredFollowingPosts } =
-  postSlice.actions;
+export const {
+  updateComments,
+  filteredPosts,
+  filteredFollowingPosts,
+  filteredUserPosts,
+} = postSlice.actions;
 
 export default postSlice.reducer;

@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { Box, Flex, Text } from "../Util";
 import FavoriteRoundedIcon from "@material-ui/icons/FavoriteRounded";
 import FavoriteBorderRoundedIcon from "@material-ui/icons/FavoriteBorderRounded";
-import { MessageCircle } from "react-feather";
+import { MessageCircle, Trash } from "react-feather";
 import {
   disLikePostAsync,
   likePostAsync,
@@ -12,6 +12,12 @@ import styled from "styled-components";
 import { Avatar } from "@material-ui/core";
 import { useState } from "react";
 import CommentSection from "./CommentSection";
+import { deletePost } from "../../features/post/postApi";
+import {
+  filteredFollowingPosts,
+  filteredPosts,
+  filteredUserPosts,
+} from "../../features/post/postSlice";
 
 const PostCardWrapper = styled(Flex)`
   flex-direction: row;
@@ -22,6 +28,17 @@ const PostCardWrapper = styled(Flex)`
   &:hover {
     background: var(--color-gray-200);
   }
+`;
+
+const AvatarWrapper = styled(Box)`
+  cursor: pointer;
+`;
+
+const UserDetailWrapper = styled(Flex)`
+  flex-direction: row;
+  align-items: center;
+  cursor: pointer;
+  justify-content: space-between;
 `;
 
 const PostCard = ({ post }) => {
@@ -42,22 +59,23 @@ const PostCard = ({ post }) => {
     (like) => like.user._id === auth.userInfo._id
   );
 
-  // const removePost = async () => {
-  //   const response = await deletePost({ _id, token });
+  const removePost = async () => {
+    const response = await deletePost({ _id, token });
 
-  //   const {
-  //     data: { removedPost },
-  //   } = response;
+    const {
+      data: { removedPost },
+    } = response;
 
-  //   if (removedPost) {
-  //     dispatch(filteredPosts({ removedPost }));
-  //     dispatch(filteredFollowingPosts({ removedPost }));
-  //   } else {
-  //     return {
-  //       error: response,
-  //     };
-  //   }
-  // };
+    if (removedPost) {
+      dispatch(filteredPosts({ removedPost }));
+      dispatch(filteredFollowingPosts({ removedPost }));
+      dispatch(filteredUserPosts({ removedPost }));
+    } else {
+      return {
+        error: response,
+      };
+    }
+  };
 
   const likeHandeller = () => {
     if (isLiked === undefined) {
@@ -75,17 +93,27 @@ const PostCard = ({ post }) => {
       px={"1rem"}
     >
       <Flex>
-        <Box>
+        <AvatarWrapper onClick={() => navigate(`/user/${postedBy._id}`)}>
           <Avatar src={postedBy?.avatarImage} />
-        </Box>
+        </AvatarWrapper>
       </Flex>
       <Flex flexDirection="column" width={"100%"}>
-        <Flex flexDirection="column">
-          <Text fontSize="larger"> {postedBy?.name}</Text>
-          <Text fontSize="smaller" color="var(--color-gray-800)">
-            @{postedBy?.userName}{" "}
-          </Text>
-        </Flex>
+        <UserDetailWrapper flexDirection="column">
+          <Box
+            width="min-content"
+            onClick={() => navigate(`/user/${postedBy._id}`)}
+          >
+            <Text fontSize="larger"> {postedBy?.name}</Text>
+            <Text fontSize="smaller" color="var(--color-gray-800)">
+              @{postedBy?.userName}{" "}
+            </Text>
+          </Box>
+          {path === `/user/${auth.userInfo._id}` && (
+            <Box>
+              <Trash size="1.1rem" onClick={() => removePost()} />
+            </Box>
+          )}
+        </UserDetailWrapper>
         <Flex
           minHeight={"5rem"}
           onClick={() =>

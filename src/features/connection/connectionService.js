@@ -3,8 +3,8 @@ import { getUserConnections } from "./connectionApi";
 
 export const loadConnections = createAsyncThunk(
   "user/connections",
-  async ({ token }) => {
-    const response = await getUserConnections({ token });
+  async ({ userId }) => {
+    const response = await getUserConnections({ userId });
     if (response.success) {
       return {
         followers: response.folllowers,

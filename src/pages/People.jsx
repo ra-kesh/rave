@@ -11,7 +11,7 @@ const People = () => {
   useEffect(() => {
     dispatch(
       loadConnections({
-        token: auth.userInfo.token,
+        userId: auth.userInfo._id,
       })
     );
 

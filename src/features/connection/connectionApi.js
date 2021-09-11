@@ -1,17 +1,16 @@
 import axios from "axios";
 import API_URL from "../../api/config";
 
-export const getUserConnections = async ({ token }) => {
+export const getUserConnections = async ({ userId }) => {
   const config = {
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
     },
   };
 
   let response = null;
   try {
-    response = await axios.get(`${API_URL}/connection`, config);
+    response = await axios.get(`${API_URL}/connection/${userId}`, config);
     return response.data;
   } catch (error) {
     response = error.message;

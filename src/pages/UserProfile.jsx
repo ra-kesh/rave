@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import { Avatar } from "@material-ui/core";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
@@ -6,6 +7,7 @@ import styled from "styled-components";
 import Layout from "../components/Layout";
 import PostCard from "../components/Post/PostCard";
 import { Box, Flex, Text } from "../components/Util";
+import { loadConnections } from "../features/connection/connectionService";
 import { fetchUserPosts } from "../features/post/postService";
 import { fetchSingleUser } from "../features/user/userService";
 
@@ -24,10 +26,37 @@ const ProfileWrapper = styled.div`
   background: var(--color-background);
 `;
 
+const TabWrapper = styled(Flex)`
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 0.5rem;
+`;
+
+const Tab = styled(Box)`
+  cursor: pointer;
+  &:hover {
+    background: var(--color-gray-300);
+  }
+`;
+
+const UserWrapper = styled(Flex)`
+  align-items: center;
+  gap: 1rem;
+  height: 5rem;
+  border-top: 1px solid var(--color-gray-200);
+  border-radius: 0.5rem;
+
+  &:hover {
+    background: var(--color-gray-300);
+  }
+`;
+
 const UserProfile = () => {
+  const [show, setShow] = useState("post");
   const { userId } = useParams();
   const { user } = useSelector((state) => state.user);
   const { userPosts } = useSelector((state) => state.post);
+  const { followers, following } = useSelector((state) => state.connection);
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -42,8 +71,13 @@ const UserProfile = () => {
     })();
   }, [dispatch, userId]);
 
-  // let userPosts = [];
-  // userPosts = post.posts?.filter((post) => post.postedBy._id === userId);
+  useEffect(() => {
+    dispatch(
+      loadConnections({
+        userId,
+      })
+    );
+  }, [dispatch, userId]);
 
   return (
     <Layout>
@@ -80,11 +114,75 @@ const UserProfile = () => {
             Here to Rave..
           </Text>
         </Flex>
-        {userPosts?.map((post) => (
-          <div key={post._id}>
-            <PostCard post={post} />
-          </div>
-        ))}
+        <Flex height="2rem"></Flex>
+
+        <TabWrapper height="3.5rem">
+          <Tab
+            onClick={() => setShow("post")}
+            width="30%"
+            py="1rem"
+            borderBottom={
+              show === "post" ? "3px solid var(--color-gray-300)" : null
+            }
+          >
+            <Text textAlign="center" fontSize="large">
+              Posts
+            </Text>
+          </Tab>
+          <Tab
+            width="30%"
+            py="1rem"
+            borderBottom={
+              show === "followers" ? "3px solid var(--color-gray-300)" : null
+            }
+            onClick={() => setShow("followers")}
+          >
+            <Text textAlign="center">Followers</Text>
+          </Tab>
+          <Tab
+            width="30%"
+            py="1rem"
+            borderBottom={
+              show === "following" ? "3px solid var(--color-gray-300)" : null
+            }
+            onClick={() => setShow("following")}
+          >
+            <Text textAlign="center">Folllowing</Text>
+          </Tab>
+        </TabWrapper>
+
+        {show === "post" && (
+          <>
+            {userPosts?.map((post) => (
+              <div key={post._id}>
+                <PostCard post={post} />
+              </div>
+            ))}
+          </>
+        )}
+        {show === "followers" && (
+          <>
+            {followers?.map((user) => (
+              <div key={user._id}>
+                <h3>{user.name}</h3>
+              </div>
+            ))}
+          </>
+        )}
+        {show === "following" && (
+          <>
+            {following?.map((user) => (
+              <UserWrapper key={user._id} px="2rem">
+                <Box>
+                  <Avatar src={user.avatarImage} />
+                </Box>
+                <Box>
+                  <Text>{user.name}</Text>
+                </Box>
+              </UserWrapper>
+            ))}
+          </>
+        )}
       </Flex>
     </Layout>
   );

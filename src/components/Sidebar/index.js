@@ -76,7 +76,7 @@ export const Sidebar = ({ setShowModal }) => {
 
         <Navli>
           <NavLink>
-            <IconWrapper onClick={() => navigate("/profile")}>
+            <IconWrapper onClick={() => navigate(`/user/${auth.userInfo._id}`)}>
               {" "}
               <User />
             </IconWrapper>
