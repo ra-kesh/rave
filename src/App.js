@@ -20,9 +20,6 @@ function App() {
         <PrivateRoute path="/feed" element={<Feed />} />
         <PrivateRoute path="/post/:postId" element={<PostDetail />} />
         <PrivateRoute path="/user/:userId" element={<UserProfile />} />
-        {/* <Route path="/feed"> <PrivateRoute path="/feed" element={<Feed />}/> </Route>
-            <Route path="/user"> <PrivateRoute path="/user" element={<Users />}/> </Route>
-            <Route path="/user/:userId"> <PrivateRoute path="/user/:userId" element={<UserProfile />}/> </Route> */}
       </Routes>
     </div>
   );
