@@ -22,10 +22,10 @@ import {
 const PostCardWrapper = styled(Flex)`
   flex-direction: row;
   border-top: 1px solid var(--color-gray-200);
-  border-radius: 0.5rem;
   gap: 1rem;
 
   &:hover {
+    border-radius: 0.5rem;
     background: var(--color-gray-200);
   }
 `;
@@ -94,7 +94,7 @@ const PostCard = ({ post }) => {
     >
       <Flex>
         <AvatarWrapper onClick={() => navigate(`/user/${postedBy._id}`)}>
-          <Avatar src={postedBy?.avatarImage} />
+          <Avatar src={postedBy?.avatarImage + `?scale=140`} />
         </AvatarWrapper>
       </Flex>
       <Flex flexDirection="column" width={"100%"}>
@@ -116,9 +116,9 @@ const PostCard = ({ post }) => {
         </UserDetailWrapper>
         <Flex
           minHeight={"5rem"}
-          onClick={() =>
-            path !== `/post/${post._id}` ? navigate(`/post/${_id}`) : null
-          }
+          // onClick={() =>
+          //   path !== `/post/${post._id}` ? navigate(`/post/${_id}`) : null
+          // }
         >
           <p>{post.content}</p>
         </Flex>

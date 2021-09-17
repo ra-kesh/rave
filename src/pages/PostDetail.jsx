@@ -8,7 +8,7 @@ import { addComment, removeComment } from "../features/post/postApi";
 import { updateComments } from "../features/post/postSlice";
 import { fetchSinglePost } from "../features/post/postService";
 
-const PostDetail = () => {
+export const PostDetail = () => {
   const [content, setContent] = useState("");
   const { postId } = useParams();
   const { singlePost } = useSelector((state) => state.post);
@@ -88,5 +88,3 @@ const PostDetail = () => {
     </Layout>
   );
 };
-
-export default PostDetail;

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { LoginForm } from "../components/Form/LoginForm";
 import { Flex } from "../components/Util";
 
-const Login = () => {
+export const Login = () => {
   const auth = useSelector((state) => state.auth);
 
   const navigate = useNavigate();
@@ -28,5 +28,3 @@ const Login = () => {
     </Flex>
   );
 };
-
-export default Login;

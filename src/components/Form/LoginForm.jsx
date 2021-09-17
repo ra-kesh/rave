@@ -11,8 +11,8 @@ import { userLogin } from "../../features/auth/authServices";
 // import { userLogin } from "../features/auth/authServices"
 
 const initialState = {
-  email: "something@gmail.com",
-  password: "something",
+  email: "someone@gmail.com",
+  password: "someone",
 };
 
 export const LoginForm = () => {

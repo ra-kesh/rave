@@ -10,11 +10,11 @@ import { useDispatch } from "react-redux";
 import { userSignup } from "../../features/auth/authServices";
 
 const initialState = {
-  name: "something",
-  userName: "something",
-  email: "something@gmail.com",
-  password: "something",
-  confirmPassword: "something",
+  name: "someone",
+  userName: "someone",
+  email: "someone@gmail.com",
+  password: "someone",
+  confirmPassword: "someone",
 };
 
 export const SignUpForm = () => {

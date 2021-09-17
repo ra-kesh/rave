@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { SignUpForm } from "../components/Form/SignUpForm";
 import { Flex } from "../components/Util";
 
-const SignUp = () => {
+export const SignUp = () => {
   const auth = useSelector((state) => state.auth);
 
   const navigate = useNavigate();
@@ -15,11 +15,9 @@ const SignUp = () => {
     }
   }, [auth, navigate]);
   return (
-    <Flex justifyContent="center" alignItems="center">
+    <Flex justifyContent="center" alignItems="center" flexDirection="column">
       <h3>{auth.error ? "something went wrong ...try again" : null}</h3>
       <SignUpForm />
     </Flex>
   );
 };
-
-export default SignUp;

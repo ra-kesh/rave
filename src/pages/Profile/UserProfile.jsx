@@ -1,64 +1,40 @@
-import { Avatar } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import Layout from "../../components/Layout";
+import { Box, Flex, Text } from "../../components/Util";
+import { fetchUserPosts } from "../../features/post/postService";
+import { fetchSingleUser } from "../../features/user/userService";
+import { CoverWrapper, ProfileWrapper, Tab, TabWrapper } from "./Profile.style";
+import ProfileFollowers from "./ProfileFollowers";
+import ProfileFollowings from "./ProfileFollowings";
+import ProfilePosts from "./ProfilePosts";
+import {
+  followUserAsync,
+  loadUserConnections,
+  unfollowUserAsync,
+} from "../../features/connection/connectionService";
 
-import styled from "styled-components";
-import Layout from "../components/Layout";
-import PostCard from "../components/Post/PostCard";
-import { Box, Flex, Text } from "../components/Util";
-import { loadConnections } from "../features/connection/connectionService";
-import { fetchUserPosts } from "../features/post/postService";
-import { fetchSingleUser } from "../features/user/userService";
-
-const CoverWrapper = styled(Box)`
-  position: relative;
-  border-radius: 0.5rem;
-`;
-
-const ProfileWrapper = styled.div`
-  position: absolute;
-  display: flex;
-  align-items: center;
-  z-index: 1;
-  bottom: -4rem;
-  left: 24px;
-  background: var(--color-background);
-`;
-
-const TabWrapper = styled(Flex)`
-  align-items: center;
-  justify-content: space-between;
-  border-radius: 0.5rem;
-`;
-
-const Tab = styled(Box)`
-  cursor: pointer;
-  &:hover {
-    background: var(--color-gray-300);
-  }
-`;
-
-const UserWrapper = styled(Flex)`
-  align-items: center;
-  gap: 1rem;
-  height: 5rem;
-  border-top: 1px solid var(--color-gray-200);
-  border-radius: 0.5rem;
-
-  &:hover {
-    background: var(--color-gray-300);
-  }
-`;
-
-const UserProfile = () => {
+export const UserProfile = () => {
   const [show, setShow] = useState("post");
   const { userId } = useParams();
   const { user } = useSelector((state) => state.user);
   const { userPosts } = useSelector((state) => state.post);
-  const { followers, following } = useSelector((state) => state.connection);
+  const { userFollowing } = useSelector((state) => state.connection);
+  const { userInfo } = useSelector((state) => state.auth);
+
+  const isFollowing = !!userFollowing?.find((user) => user._id === userId);
 
   const dispatch = useDispatch();
+
+  const followOrUnfollowUser = (userId) => {
+    if (isFollowing) {
+      dispatch(unfollowUserAsync({ followId: userId, token: userInfo.token }));
+    } else {
+      dispatch(followUserAsync({ followId: userId, token: userInfo.token }));
+    }
+  };
+
   useEffect(() => {
     (async () => {
       await dispatch(fetchSingleUser(userId));
@@ -73,11 +49,11 @@ const UserProfile = () => {
 
   useEffect(() => {
     dispatch(
-      loadConnections({
-        userId,
+      loadUserConnections({
+        userId: userInfo._id,
       })
     );
-  }, [dispatch, userId]);
+  }, [dispatch, userInfo]);
 
   return (
     <Layout>
@@ -92,7 +68,6 @@ const UserProfile = () => {
             <img
               src={user.coverImage + `?scale=145`}
               alt=""
-              srcset=""
               className="coverImage"
             />
             <ProfileWrapper>
@@ -104,7 +79,19 @@ const UserProfile = () => {
             </ProfileWrapper>
           </CoverWrapper>
         </Flex>
-        <Flex height="4rem"></Flex>
+        <Flex justifyContent="flex-end" height="4rem">
+          <Flex>
+            {userInfo._id === userId ? (
+              <button>
+                <Text>edit</Text>
+              </button>
+            ) : (
+              <button onClick={() => followOrUnfollowUser(userId)}>
+                <Text>{isFollowing ? "following" : "follow"}</Text>
+              </button>
+            )}
+          </Flex>
+        </Flex>
         <Flex px="2rem" flexDirection="column" minHeight="4rem" py="1rem">
           <Text fontSize="x-large">{user.name}</Text>
           <Text fontSize="large" color="var(--color-gray-700)">
@@ -151,41 +138,10 @@ const UserProfile = () => {
           </Tab>
         </TabWrapper>
 
-        {show === "post" && (
-          <>
-            {userPosts?.map((post) => (
-              <div key={post._id}>
-                <PostCard post={post} />
-              </div>
-            ))}
-          </>
-        )}
-        {show === "followers" && (
-          <>
-            {followers?.map((user) => (
-              <div key={user._id}>
-                <h3>{user.name}</h3>
-              </div>
-            ))}
-          </>
-        )}
-        {show === "following" && (
-          <>
-            {following?.map((user) => (
-              <UserWrapper key={user._id} px="2rem">
-                <Box>
-                  <Avatar src={user.avatarImage} />
-                </Box>
-                <Box>
-                  <Text>{user.name}</Text>
-                </Box>
-              </UserWrapper>
-            ))}
-          </>
-        )}
+        {show === "post" && <ProfilePosts userPosts={userPosts} />}
+        {show === "followers" && <ProfileFollowers userId={userId} />}
+        {show === "following" && <ProfileFollowings userId={userId} />}
       </Flex>
     </Layout>
   );
 };
-
-export default UserProfile;

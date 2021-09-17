@@ -10,8 +10,9 @@ import AddComment from "./AddComment";
 
 const AddCommentWrapper = styled(Flex)`
   gap: 1rem;
-  border-radius: 0.5rem;
+  border-top: 1px solid var(--color-gray-300);
   &:hover {
+    border-radius: 0.5rem;
     background-color: var(--color-gray-300);
   }
 `;
@@ -49,7 +50,7 @@ const CommentSection = ({ post }) => {
     <Flex flexDirection="column">
       <AddCommentWrapper py="2rem" px="1rem" mt="1rem">
         <Box>
-          <Avatar src={post.postedBy?.avatarImage} />
+          <Avatar src={auth.userInfo?.avatarImage + `?scale=140`} />
         </Box>
         <Box width="80%">
           <AddComment post={post} />
@@ -64,7 +65,7 @@ const CommentSection = ({ post }) => {
             px="1rem"
           >
             <Box>
-              <Avatar src={post.postedBy?.avatarImage} />
+              <Avatar src={comment.user?.avatarImage + `?scale=140`} />
             </Box>
             <Flex justifyContent="space-between" width="100%">
               <Text>{comment.text}</Text>

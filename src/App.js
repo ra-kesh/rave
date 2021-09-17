@@ -1,13 +1,15 @@
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
-import Login from "./pages/Login";
 import { PrivateRoute } from "./utils/PrivateRoute";
-import { Home } from "./pages/Home";
-import SignUp from "./pages/SignUp";
-import People from "./pages/People";
-import PostDetail from "./pages/PostDetail";
-import Feed from "./pages/Feed";
-import UserProfile from "./pages/UserProfile";
+import {
+  Login,
+  SignUp,
+  People,
+  Home,
+  Feed,
+  PostDetail,
+  UserProfile,
+} from "./pages";
 
 function App() {
   return (
