@@ -71,7 +71,7 @@ export const NavLogo = styled.div`
 export const NavLink = styled(NavLogo)`
   &: hover {
     filter: grayscale(0%) opacity(1);
-    background: var(--bg-secondary);
+    background: var(--color-gray-900);
     color: var(--text-secondary);
   }
 

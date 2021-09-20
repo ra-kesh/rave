@@ -36,3 +36,19 @@ export const userSignup = createAsyncThunk(
     }
   }
 );
+
+// export const userUpdate = createAsyncThunk(
+//   "user/update",
+//   async (data, token) => {
+//     const response = await updateUser(data, token);
+//     if (response.userInfo) {
+//       return {
+//         userInfo: response.userInfo,
+//       };
+//     } else {
+//       return {
+//         error: response,
+//       };
+//     }
+//   }
+// );

@@ -2,6 +2,7 @@ import { Avatar } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
+import { ButtonRounded } from "../components/Button";
 import Layout from "../components/Layout";
 import { Box, Flex, Text } from "../components/Util";
 import {
@@ -110,8 +111,10 @@ export const People = () => {
                     <Text fontSize="larger">{user.name}</Text>
                     <Text fontSize="smaller">@{user.userName}</Text>
                   </Box>
-                  <Box>
-                    <button onClick={() => unFollowUser(user)}>unfollow</button>
+                  <Box onClick={() => unFollowUser(user)} width="30%">
+                    <ButtonRounded height={"2.5rem"} px={12} py={0}>
+                      <Text> unfollow</Text>
+                    </ButtonRounded>
                   </Box>
                 </Flex>
               </UserWrapper>
@@ -140,17 +143,21 @@ export const People = () => {
                     <Text fontSize="larger">{user.name}</Text>
                     <Text fontSize="smaller">@{user.userName}</Text>
                   </Box>
-                  <Box>
-                    {connection?.userFollowing?.find(
-                      (fuser) => fuser._id === user._id
-                    ) ? (
-                      <button onClick={() => unFollowUser(user)}>
-                        unfollow
-                      </button>
-                    ) : (
-                      <button onClick={() => followUser(user)}>follow</button>
-                    )}
-                  </Box>
+                  {connection?.userFollowing?.find(
+                    (fuser) => fuser._id === user._id
+                  ) ? (
+                    <Box onClick={() => unFollowUser(user)} width="30%">
+                      <ButtonRounded height={"2.5rem"} px={12} py={0}>
+                        <Text> unfollow</Text>
+                      </ButtonRounded>
+                    </Box>
+                  ) : (
+                    <Box onClick={() => followUser(user)} width="30%">
+                      <ButtonRounded height={"2.5rem"} px={12} py={0}>
+                        <Text>follow</Text>
+                      </ButtonRounded>
+                    </Box>
+                  )}
                 </Flex>
               </UserWrapper>
             ))}
@@ -178,7 +185,11 @@ export const People = () => {
                     <Text fontSize="larger">{user.name}</Text>
                     <Text fontSize="smaller">@{user.userName}</Text>
                   </Box>
-                  <button onClick={() => followUser(user)}>follow</button>
+                  <Box onClick={() => followUser(user)} width="30%">
+                    <ButtonRounded height={"2.5rem"} px={12} py={0}>
+                      <Text>follow</Text>
+                    </ButtonRounded>
+                  </Box>
                 </Flex>
               </UserWrapper>
             ))}

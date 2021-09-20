@@ -147,7 +147,7 @@ a {
   height: 150px;
   border-radius: 50%;
   object-fit: cover;
-  border: 3px solid #151728;
+  border: 2px solid var(--color-gray-900);
 }
 
 .avatar {

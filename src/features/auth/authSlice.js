@@ -45,6 +45,18 @@ const authSlice = createSlice({
       state.loading = false;
       state.error = action.payload.error;
     },
+    // [userUpdate.rejected]: (state, action) => {
+    //   state.loading = false;
+    //   state.error = action.payload.error;
+    // },
+    // [userUpdate.pending]: (state) => {
+    //   state.loading = true;
+    // },
+    // [userUpdate.fulfilled]: (state, action) => {
+    //   state.userInfo = action.payload.userInfo;
+    //   state.loading = false;
+    //   state.error = "";
+    // },
   },
 });
 

@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { Box, Flex, Text } from "../Util";
 import FavoriteRoundedIcon from "@material-ui/icons/FavoriteRounded";
 import FavoriteBorderRoundedIcon from "@material-ui/icons/FavoriteBorderRounded";
-import { MessageCircle, Trash } from "react-feather";
+import { MessageCircle, Trash, MoreVertical } from "react-feather";
 import {
   disLikePostAsync,
   likePostAsync,
@@ -108,9 +108,13 @@ const PostCard = ({ post }) => {
               @{postedBy?.userName}{" "}
             </Text>
           </Box>
-          {path === `/user/${auth.userInfo._id}` && (
+          {path === `/user/${auth.userInfo._id}` ? (
             <Box>
               <Trash size="1.1rem" onClick={() => removePost()} />
+            </Box>
+          ) : (
+            <Box>
+              <MoreVertical size="1.1rem" />
             </Box>
           )}
         </UserDetailWrapper>

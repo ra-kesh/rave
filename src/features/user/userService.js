@@ -20,7 +20,7 @@ export const fetchAllUsers = createAsyncThunk(
 );
 
 export const fetchSingleUser = createAsyncThunk(
-  "use/fetchSingleUser",
+  "user/fetchSingleUser",
   async (userId) => {
     const response = await getSingleUser(userId);
     if (response.user) {
@@ -34,3 +34,11 @@ export const fetchSingleUser = createAsyncThunk(
     }
   }
 );
+
+// export const updateUserAsync = createAsyncThunk(
+//   "profile/updateProfile",
+//   async (userInfo) => {
+//       const response = await updateUser(userInfo);
+
+//   }
+// );

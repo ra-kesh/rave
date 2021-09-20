@@ -22,3 +22,20 @@ export const getSingleUser = async (userId) => {
   }
   return response;
 };
+
+export const updateUser = async (userInfo, auth) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${auth.userInfo.token}`,
+    },
+  };
+  let response = null;
+  try {
+    response = await axios.post(`${API_URL}/profile`, userInfo, config);
+    return response.data;
+  } catch (err) {
+    response = err.message;
+  }
+  return response;
+};

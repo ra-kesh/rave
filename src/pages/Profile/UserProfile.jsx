@@ -2,7 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import Layout from "../../components/Layout";
-import { Box, Flex, Text } from "../../components/Util";
+import {
+  Box,
+  Flex,
+  ModalOverlay,
+  ModalWrapper,
+  Text,
+} from "../../components/Util";
 import { fetchUserPosts } from "../../features/post/postService";
 import { fetchSingleUser } from "../../features/user/userService";
 import { CoverWrapper, ProfileWrapper, Tab, TabWrapper } from "./Profile.style";
@@ -14,16 +20,20 @@ import {
   loadUserConnections,
   unfollowUserAsync,
 } from "../../features/connection/connectionService";
+import { ButtonRounded } from "../../components/Button";
+import EditProfile from "../../components/Form/EditProfile";
 
 export const UserProfile = () => {
   const [show, setShow] = useState("post");
+  const [showModal, setShowModal] = useState(false);
+
   const { userId } = useParams();
   const { user } = useSelector((state) => state.user);
   const { userPosts } = useSelector((state) => state.post);
   const { userFollowing } = useSelector((state) => state.connection);
   const { userInfo } = useSelector((state) => state.auth);
 
-  const isFollowing = !!userFollowing?.find((user) => user._id === userId);
+  const isFollowing = userFollowing?.find((user) => user._id === userId);
 
   const dispatch = useDispatch();
 
@@ -80,15 +90,22 @@ export const UserProfile = () => {
           </CoverWrapper>
         </Flex>
         <Flex justifyContent="flex-end" height="4rem">
-          <Flex>
+          <Flex justifyContent="center" alignItems="center" width="10rem">
             {userInfo._id === userId ? (
-              <button>
-                <Text>edit</Text>
-              </button>
+              <Box
+                width="100%"
+                onClick={() => setShowModal((showModal) => !showModal)}
+              >
+                <ButtonRounded height={"3rem"} px={16} py={0}>
+                  <Text>Edit</Text>
+                </ButtonRounded>
+              </Box>
             ) : (
-              <button onClick={() => followOrUnfollowUser(userId)}>
-                <Text>{isFollowing ? "following" : "follow"}</Text>
-              </button>
+              <Box onClick={() => followOrUnfollowUser(userId)} width="100%">
+                <ButtonRounded height={"3rem"} px={16} py={0}>
+                  <Text>{isFollowing ? "following" : "follow"}</Text>
+                </ButtonRounded>
+              </Box>
             )}
           </Flex>
         </Flex>
@@ -141,6 +158,12 @@ export const UserProfile = () => {
         {show === "post" && <ProfilePosts userPosts={userPosts} />}
         {show === "followers" && <ProfileFollowers userId={userId} />}
         {show === "following" && <ProfileFollowings userId={userId} />}
+        {showModal && (
+          <ModalWrapper p={"5rem"}>
+            <ModalOverlay onClick={() => setShowModal(false)} />
+            <EditProfile />
+          </ModalWrapper>
+        )}
       </Flex>
     </Layout>
   );
