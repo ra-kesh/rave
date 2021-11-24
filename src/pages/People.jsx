@@ -1,5 +1,6 @@
 import { Avatar } from "@material-ui/core";
 import { useEffect, useState } from "react";
+import { Users } from "react-feather";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import { ButtonRounded } from "../components/Button";
@@ -43,10 +44,14 @@ export const People = () => {
       <Flex flexDirection="column" width={["25rem", "30rem", "40rem"]}>
         <Flex
           alignItems="center"
+          justifyContent="space-between"
           borderBottom="1px solid var(--color-gray-200)"
         >
           <Box px={"1rem"}>
             <h1>People</h1>
+          </Box>
+          <Box px={"1rem"}>
+            <Users />
           </Box>
         </Flex>
         <TabWrapper height="3.5rem">

@@ -76,13 +76,13 @@ export const UserProfile = () => {
         <Flex>
           <CoverWrapper width={["25rem", "30rem", "40rem"]} height="16rem">
             <img
-              src={user.coverImage + `?scale=145`}
+              src={user?.coverImage + `?scale=145`}
               alt=""
               className="coverImage"
             />
             <ProfileWrapper>
               <img
-                src={user.avatarImage + `?scale=110`}
+                src={user?.avatarImage + `?scale=110`}
                 alt=""
                 className="profileImage"
               />
@@ -110,9 +110,9 @@ export const UserProfile = () => {
           </Flex>
         </Flex>
         <Flex px="2rem" flexDirection="column" minHeight="4rem" py="1rem">
-          <Text fontSize="x-large">{user.name}</Text>
+          <Text fontSize="x-large">{user?.name}</Text>
           <Text fontSize="large" color="var(--color-gray-700)">
-            @{user.userName}
+            @{user?.userName}
           </Text>
           <Text fontSize="large" mt="2rem">
             Here to Rave..

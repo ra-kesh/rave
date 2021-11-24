@@ -18,6 +18,7 @@ import {
   filteredPosts,
   filteredUserPosts,
 } from "../../features/post/postSlice";
+import { formatDistanceToNow } from "date-fns";
 
 const PostCardWrapper = styled(Flex)`
   flex-direction: row;
@@ -41,9 +42,14 @@ const UserDetailWrapper = styled(Flex)`
   justify-content: space-between;
 `;
 
+const IconWrapper = styled(Flex)`
+  gap: 0.5rem;
+  cursor: pointer;
+`;
+
 const PostCard = ({ post }) => {
   const [showComments, setShowComments] = useState(false);
-  const { _id, likes, postedBy, comments } = post;
+  const { _id, likes, postedBy, comments, createdAt } = post;
 
   const location = useLocation();
   const path = location.pathname + location.search;
@@ -127,16 +133,25 @@ const PostCard = ({ post }) => {
           <p>{post.content}</p>
         </Flex>
         <Flex>
-          <Flex alignItems="center" onClick={() => likeHandeller()} mr={"1rem"}>
+          <IconWrapper
+            alignItems="center"
+            onClick={() => likeHandeller()}
+            mr={"1rem"}
+          >
             {isLiked ? <FavoriteRoundedIcon /> : <FavoriteBorderRoundedIcon />}
             {likes?.length}
-          </Flex>
-          <Flex
+          </IconWrapper>
+          <IconWrapper
             alignItems="center"
             onClick={() => setShowComments((showComments) => !showComments)}
           >
             <MessageCircle />
             {comments?.length}
+          </IconWrapper>
+          <Flex alignItems="center" ml="auto">
+            <Text fontSize="smaller" color="var(--color-gray-900)">
+              {formatDistanceToNow(Date.parse(createdAt))} ago
+            </Text>
           </Flex>
         </Flex>
         {showComments && <CommentSection post={post} />}

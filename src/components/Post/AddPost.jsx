@@ -36,12 +36,12 @@ const AddPost = () => {
         value={content}
         onChange={(e) => setContent(e.target.value)}
         className="textArea"
-        placeholder="write here "
+        placeholder="rave here ..."
       />
 
       <Flex width={"95%"} onClick={() => addPostHandeller()}>
         <Button height={"3rem"} px={16} py={0}>
-          add post
+          submit
         </Button>
       </Flex>
     </Flex>

@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { Home } from "react-feather";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchAllPosts } from "../../features/post/postService";
 import PostCard from "../Post/PostCard";
@@ -17,10 +18,13 @@ const HomeFeed = () => {
     .sort((a, b) => new Date(b["createdAt"]) - new Date(a["createdAt"]));
 
   return (
-    <Flex flexDirection="column">
-      <Flex alignItems="center">
+    <Flex flexDirection="column" width={["25rem", "30rem", "40rem"]}>
+      <Flex alignItems="center" justifyContent="space-between">
         <Box px={"1rem"}>
           <h1>Home</h1>
+        </Box>
+        <Box px={"1rem"}>
+          <Home />
         </Box>
       </Flex>
       {sortedPosts?.map((post) => (

@@ -74,6 +74,12 @@
   --transition-speed: 600ms;
 }
 
+@property --offset {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0;
+}
+
 * html,
 body,
 button,

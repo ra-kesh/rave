@@ -57,6 +57,7 @@ export const ModalWrapper = styled(Flex)`
   align-items: center;
   justify-content: center;
 `;
+
 export const ModalOverlay = styled.div`
   position: fixed;
   z-index: -10;

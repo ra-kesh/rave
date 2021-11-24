@@ -48,7 +48,7 @@ export const StyledTextArea = styled.textarea`
 `;
 export const StyledButton = styled.button`
   display: block;
-  background-color: black;
+  background-color: var(--color-gray-900);
   color: #fff;
   font-size: 14px;
   border: 0;
@@ -58,7 +58,7 @@ export const StyledButton = styled.button`
   cursor: pointer;
   box-sizing: border-box;
   &:hover {
-    background-color: #be185d;
+    background-color: black;
   }
 `;
 

@@ -1,7 +1,9 @@
 import { useEffect } from "react";
+import { Layers } from "react-feather";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchFeedPosts } from "../../features/post/postService";
 import PostCard from "../Post/PostCard";
+import { Box, Flex } from "../Util";
 
 const PersonalFeed = () => {
   const dispatch = useDispatch();
@@ -23,14 +25,21 @@ const PersonalFeed = () => {
   }, []);
 
   return (
-    <div>
-      <h1>Feeed</h1>
+    <Flex flexDirection="column" width={["25rem", "30rem", "40rem"]}>
+      <Flex alignItems="center" justifyContent="space-between">
+        <Box px={"1rem"}>
+          <h1>Feeed</h1>
+        </Box>
+        <Box px={"1rem"}>
+          <Layers />
+        </Box>
+      </Flex>
       {sortedPosts?.map((post) => (
         <div key={post._id}>
           <PostCard post={post} />
         </div>
       ))}
-    </div>
+    </Flex>
   );
 };
 

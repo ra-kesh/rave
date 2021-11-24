@@ -1,8 +1,23 @@
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 import { LoginForm } from "../components/Form/LoginForm";
-import { Flex } from "../components/Util";
+import { Flex, Text } from "../components/Util";
+
+const SignUpSpan = styled.span`
+  cursor: pointer;
+  color: inherit;
+  text-underline-offset: var(--offset, 0.2em);
+  text-decoration: underline 0.2em;
+  transition: --offset 600ms, text-decoration-color 600ms;
+
+  &:hover,
+  &:focus {
+    --offset: 0.4em;
+    text-decoration-color: black;
+  }
+`;
 
 export const Login = () => {
   const auth = useSelector((state) => state.auth);
@@ -23,7 +38,11 @@ export const Login = () => {
         <div>
           <LoginForm />
         </div>
-        <button onClick={() => navigate("/signup")}>signup</button>
+        <Text width="100%" pl="40px">
+          {" "}
+          Don't have an account ?{" "}
+          <SignUpSpan onClick={() => navigate("/signup")}>SIGN UP</SignUpSpan>
+        </Text>
       </Flex>
     </Flex>
   );
