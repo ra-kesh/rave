@@ -7,20 +7,26 @@ export const Navbar = styled.nav`
   transition: width 600ms ease;
   overflow: hidden;
 
+  @media (min-width: 1025px) {
+    top: 0;
+    width: 5rem;
+    height: 100vh;
+
+    ${"" /* 16rem for logo text */}
+    &: hover {
+      width: 16rem;
+    }
+  }
+
+  @media (max-width: 1024px) {
+    width: 4.5rem;
+  }
+
   @media (max-width: 600px) {
     bottom: 0;
     width: 100vw;
     height: 5rem;
     z-index: 99;
-  }
-
-  @media (min-width: 600px) {
-    top: 0;
-    width: 5rem;
-    height: 100vh;
-    &: hover {
-      width: 16rem;
-    }
   }
 `;
 
@@ -63,7 +69,7 @@ export const NavLogo = styled.div`
   filter: grayscale(100%) opacity(0.7);
   transition: var(--transition-speed);
 
-  @media (min-width: 600px) {
+  @media (min-width: 769px) {
     border-radius: 2rem;
   }
 `;
@@ -110,7 +116,9 @@ export const LogoText = styled(LinkText)`
   right: -999px;
   font-size: 1.5rem;
   transition: var(--transition-speed);
-  ${Navbar}:hover & {
-    right: 135px;
+  @media (min-width: 769px) {
+    ${Navbar}:hover & {
+      right: 135px;
+    }
   }
 `;
