@@ -4,7 +4,7 @@ import { addPost } from "../../features/post/postService";
 import { Button } from "../Button";
 import { Flex } from "../Util";
 
-const AddPost = () => {
+const AddPost = ({ setShowModal }) => {
   const [content, setContent] = useState("");
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
@@ -19,6 +19,7 @@ const AddPost = () => {
         })
       );
       setContent("");
+      setShowModal(false);
     }
   };
 

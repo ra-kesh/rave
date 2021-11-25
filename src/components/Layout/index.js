@@ -44,7 +44,7 @@ const Layout = ({ children }) => {
         {showModal && (
           <ModalWrapper p={"5rem"}>
             <ModalOverlay onClick={() => setShowModal(false)} />
-            <AddPost />
+            <AddPost setShowModal={setShowModal} />
           </ModalWrapper>
         )}
       </Flex>
