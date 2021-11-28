@@ -18,7 +18,7 @@ const userSlice = createSlice({
     },
     [fetchAllUsers.fulfilled]: (state, action) => {
       state.users = action.payload.users;
-      state.laoding = false;
+      state.loading = false;
     },
     [fetchAllUsers.rejected]: (state, action) => {
       state.loading = false;
@@ -29,7 +29,7 @@ const userSlice = createSlice({
     },
     [fetchSingleUser.fulfilled]: (state, action) => {
       state.user = action.payload.user;
-      state.laoding = false;
+      state.loading = false;
     },
     [fetchSingleUser.rejected]: (state, action) => {
       state.loading = false;

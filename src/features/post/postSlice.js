@@ -64,7 +64,7 @@ const postSlice = createSlice({
     },
     [fetchAllPosts.fulfilled]: (state, action) => {
       state.posts = action.payload.posts;
-      state.laoding = false;
+      state.loading = false;
     },
     [fetchAllPosts.rejected]: (state, action) => {
       state.loading = false;
@@ -75,7 +75,7 @@ const postSlice = createSlice({
     },
     [fetchSinglePost.fulfilled]: (state, action) => {
       state.singlePost = action.payload.post;
-      state.laoding = false;
+      state.loading = false;
     },
     [fetchSinglePost.rejected]: (state, action) => {
       state.loading = false;
@@ -86,7 +86,7 @@ const postSlice = createSlice({
     },
     [fetchUserPosts.fulfilled]: (state, action) => {
       state.userPosts = action.payload.userPosts;
-      state.laoding = false;
+      state.loading = false;
     },
     [fetchUserPosts.rejected]: (state, action) => {
       state.loading = false;
@@ -97,7 +97,7 @@ const postSlice = createSlice({
     },
     [fetchFeedPosts.fulfilled]: (state, action) => {
       state.followingPosts = action.payload.followingPosts;
-      state.laoding = false;
+      state.loading = false;
     },
     [fetchFeedPosts.rejected]: (state, action) => {
       state.loading = false;

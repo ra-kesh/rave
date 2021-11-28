@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { Home } from "react-feather";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchAllPosts } from "../../features/post/postService";
+import FeedLoader from "../Loaders/FeedLoader";
 import PostCard from "../Post/PostCard";
 import { Box, Flex } from "../Util";
 
@@ -12,8 +13,9 @@ const HomeFeed = () => {
     // eslint-disable-next-line
   }, []);
 
-  const post = useSelector((state) => state.post);
-  const sortedPosts = post?.posts
+  const { posts, loading } = useSelector((state) => state.post);
+
+  const sortedPosts = posts
     ?.slice()
     .sort((a, b) => new Date(b["createdAt"]) - new Date(a["createdAt"]));
 
@@ -27,6 +29,7 @@ const HomeFeed = () => {
           <Home />
         </Box>
       </Flex>
+      {loading && <FeedLoader />}
       {sortedPosts?.map((post) => (
         <div key={post._id}>
           <PostCard post={post} />

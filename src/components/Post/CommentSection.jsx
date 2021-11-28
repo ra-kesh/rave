@@ -26,6 +26,10 @@ const CommentWrapper = styled(Flex)`
   }
 `;
 
+const TrashWrapper = styled(Box)`
+  cursor: pointer;
+`;
+
 const CommentSection = ({ post }) => {
   const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -70,9 +74,9 @@ const CommentSection = ({ post }) => {
             <Flex justifyContent="space-between" width="100%">
               <Text>{comment.text}</Text>
               {comment.user._id === auth.userInfo._id && (
-                <Box onClick={() => deleteComment(comment)}>
+                <TrashWrapper onClick={() => deleteComment(comment)}>
                   <Trash size="1.1rem" />
-                </Box>
+                </TrashWrapper>
               )}
             </Flex>
           </CommentWrapper>

@@ -2,15 +2,16 @@ import { useEffect } from "react";
 import { Layers } from "react-feather";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchFeedPosts } from "../../features/post/postService";
+import FeedLoader from "../Loaders/FeedLoader";
 import PostCard from "../Post/PostCard";
 import { Box, Flex } from "../Util";
 
 const PersonalFeed = () => {
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
-  const post = useSelector((state) => state.post);
+  const { followingPosts, loading } = useSelector((state) => state.post);
 
-  const sortedPosts = post.followingPosts
+  const sortedPosts = followingPosts
     ?.slice()
     .sort((a, b) => new Date(b["createdAt"]) - new Date(a["createdAt"]));
 
@@ -34,6 +35,7 @@ const PersonalFeed = () => {
           <Layers />
         </Box>
       </Flex>
+      {loading && <FeedLoader />}
       {sortedPosts?.map((post) => (
         <div key={post._id}>
           <PostCard post={post} />

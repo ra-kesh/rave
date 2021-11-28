@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import { ButtonRounded } from "../components/Button";
 import Layout from "../components/Layout";
+import ConnectionLoader from "../components/Loaders/ConnectionLoader";
 import { Box, Flex, Text } from "../components/Util";
 import {
   followUserAsync,
@@ -15,7 +16,8 @@ import { Tab, TabWrapper, UserWrapper } from "./Profile/Profile.style";
 
 export const People = () => {
   const dispatch = useDispatch();
-  const connection = useSelector((state) => state.connection);
+  const { userFollowing, userFollowers, userSuggestions, loading } =
+    useSelector((state) => state.connection);
   const auth = useSelector((state) => state.auth);
   const [show, setShow] = useState("suggestions");
   const navigate = useNavigate();
@@ -93,114 +95,116 @@ export const People = () => {
           </Tab>
         </TabWrapper>
       </Flex>
-      <Flex flexDirection="column" width={["25rem", "30rem", "40rem"]}>
-        {show === "following" && (
-          <div>
-            {connection?.userFollowing?.map((user) => (
-              <UserWrapper key={user._id} px="2rem">
-                <Box
-                  onClick={() => navigate(`/user/${user._id}`)}
-                  cursor="pointer"
-                >
-                  <Avatar src={user.avatarImage + `?scale=140`} />
-                </Box>
-                <Flex
-                  justifyContent="space-between"
-                  width="100%"
-                  alignItems="center"
-                >
+      {loading ? (
+        <ConnectionLoader />
+      ) : (
+        <Flex flexDirection="column" width={["25rem", "30rem", "40rem"]}>
+          {show === "following" && (
+            <div>
+              {userFollowing?.map((user) => (
+                <UserWrapper key={user._id} px="2rem">
                   <Box
                     onClick={() => navigate(`/user/${user._id}`)}
                     cursor="pointer"
                   >
-                    <Text fontSize="larger">{user.name}</Text>
-                    <Text fontSize="smaller">@{user.userName}</Text>
+                    <Avatar src={user.avatarImage + `?scale=140`} />
                   </Box>
-                  <Box onClick={() => unFollowUser(user)} width="30%">
-                    <ButtonRounded height={"2.5rem"} px={12} py={0}>
-                      <Text> unfollow</Text>
-                    </ButtonRounded>
-                  </Box>
-                </Flex>
-              </UserWrapper>
-            ))}
-          </div>
-        )}
-        {show === "followers" && (
-          <div>
-            {connection?.userFollowers?.map((user) => (
-              <UserWrapper key={user._id} px="2rem">
-                <Box
-                  onClick={() => navigate(`/user/${user._id}`)}
-                  cursor="pointer"
-                >
-                  <Avatar src={user.avatarImage + `?scale=140`} />
-                </Box>
-                <Flex
-                  justifyContent="space-between"
-                  width="100%"
-                  alignItems="center"
-                >
-                  <Box
-                    onClick={() => navigate(`/user/${user._id}`)}
-                    cursor="pointer"
+                  <Flex
+                    justifyContent="space-between"
+                    width="100%"
+                    alignItems="center"
                   >
-                    <Text fontSize="larger">{user.name}</Text>
-                    <Text fontSize="smaller">@{user.userName}</Text>
-                  </Box>
-                  {connection?.userFollowing?.find(
-                    (fuser) => fuser._id === user._id
-                  ) ? (
+                    <Box
+                      onClick={() => navigate(`/user/${user._id}`)}
+                      cursor="pointer"
+                    >
+                      <Text fontSize="larger">{user.name}</Text>
+                      <Text fontSize="smaller">@{user.userName}</Text>
+                    </Box>
                     <Box onClick={() => unFollowUser(user)} width="30%">
                       <ButtonRounded height={"2.5rem"} px={12} py={0}>
                         <Text> unfollow</Text>
                       </ButtonRounded>
                     </Box>
-                  ) : (
+                  </Flex>
+                </UserWrapper>
+              ))}
+            </div>
+          )}
+          {show === "followers" && (
+            <div>
+              {userFollowers?.map((user) => (
+                <UserWrapper key={user._id} px="2rem">
+                  <Box
+                    onClick={() => navigate(`/user/${user._id}`)}
+                    cursor="pointer"
+                  >
+                    <Avatar src={user.avatarImage + `?scale=140`} />
+                  </Box>
+                  <Flex
+                    justifyContent="space-between"
+                    width="100%"
+                    alignItems="center"
+                  >
+                    <Box
+                      onClick={() => navigate(`/user/${user._id}`)}
+                      cursor="pointer"
+                    >
+                      <Text fontSize="larger">{user.name}</Text>
+                      <Text fontSize="smaller">@{user.userName}</Text>
+                    </Box>
+                    {userFollowing?.find((fuser) => fuser._id === user._id) ? (
+                      <Box onClick={() => unFollowUser(user)} width="30%">
+                        <ButtonRounded height={"2.5rem"} px={12} py={0}>
+                          <Text> unfollow</Text>
+                        </ButtonRounded>
+                      </Box>
+                    ) : (
+                      <Box onClick={() => followUser(user)} width="30%">
+                        <ButtonRounded height={"2.5rem"} px={12} py={0}>
+                          <Text>follow</Text>
+                        </ButtonRounded>
+                      </Box>
+                    )}
+                  </Flex>
+                </UserWrapper>
+              ))}
+            </div>
+          )}
+          {show === "suggestions" && (
+            <div>
+              {userSuggestions?.map((user) => (
+                <UserWrapper key={user._id} px="2rem">
+                  <Box
+                    onClick={() => navigate(`/user/${user._id}`)}
+                    cursor="pointer"
+                  >
+                    <Avatar src={user.avatarImage + `?scale=140`} />
+                  </Box>
+                  <Flex
+                    justifyContent="space-between"
+                    width="100%"
+                    alignItems="center"
+                  >
+                    <Box
+                      onClick={() => navigate(`/user/${user._id}`)}
+                      cursor="pointer"
+                    >
+                      <Text fontSize="larger">{user.name}</Text>
+                      <Text fontSize="smaller">@{user.userName}</Text>
+                    </Box>
                     <Box onClick={() => followUser(user)} width="30%">
                       <ButtonRounded height={"2.5rem"} px={12} py={0}>
                         <Text>follow</Text>
                       </ButtonRounded>
                     </Box>
-                  )}
-                </Flex>
-              </UserWrapper>
-            ))}
-          </div>
-        )}
-        {show === "suggestions" && (
-          <div>
-            {connection?.userSuggestions?.map((user) => (
-              <UserWrapper key={user._id} px="2rem">
-                <Box
-                  onClick={() => navigate(`/user/${user._id}`)}
-                  cursor="pointer"
-                >
-                  <Avatar src={user.avatarImage + `?scale=140`} />
-                </Box>
-                <Flex
-                  justifyContent="space-between"
-                  width="100%"
-                  alignItems="center"
-                >
-                  <Box
-                    onClick={() => navigate(`/user/${user._id}`)}
-                    cursor="pointer"
-                  >
-                    <Text fontSize="larger">{user.name}</Text>
-                    <Text fontSize="smaller">@{user.userName}</Text>
-                  </Box>
-                  <Box onClick={() => followUser(user)} width="30%">
-                    <ButtonRounded height={"2.5rem"} px={12} py={0}>
-                      <Text>follow</Text>
-                    </ButtonRounded>
-                  </Box>
-                </Flex>
-              </UserWrapper>
-            ))}
-          </div>
-        )}
-      </Flex>
+                  </Flex>
+                </UserWrapper>
+              ))}
+            </div>
+          )}
+        </Flex>
+      )}
     </Layout>
   );
 };

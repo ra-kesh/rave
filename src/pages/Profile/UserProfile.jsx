@@ -22,13 +22,16 @@ import {
 } from "../../features/connection/connectionService";
 import { ButtonRounded } from "../../components/Button";
 import EditProfile from "../../components/Form/EditProfile";
+import ProfileLoader from "../../components/Loaders/ProfileLoader";
+import { User } from "react-feather";
+import ConnectionLoader from "../../components/Loaders/ConnectionLoader";
 
 export const UserProfile = () => {
   const [show, setShow] = useState("post");
   const [showModal, setShowModal] = useState(false);
 
   const { userId } = useParams();
-  const { user } = useSelector((state) => state.user);
+  const { user, loading } = useSelector((state) => state.user);
   const { userPosts } = useSelector((state) => state.post);
   const { userFollowing } = useSelector((state) => state.connection);
   const { userInfo } = useSelector((state) => state.auth);
@@ -68,92 +71,109 @@ export const UserProfile = () => {
   return (
     <Layout>
       <Flex flexDirection="column">
-        <Flex alignItems="center">
+        <Flex alignItems="center" justifyContent="space-between">
           <Box px={"1rem"}>
             <h1>Profile</h1>
           </Box>
+          <Box px={"1rem"}>
+            <User />
+          </Box>
         </Flex>
-        <Flex>
-          <CoverWrapper width={["25rem", "30rem", "40rem"]} height="16rem">
-            <img
-              src={user?.coverImage + `?scale=145`}
-              alt=""
-              className="coverImage"
-            />
-            <ProfileWrapper>
-              <img
-                src={user?.avatarImage + `?scale=110`}
-                alt=""
-                className="profileImage"
-              />
-            </ProfileWrapper>
-          </CoverWrapper>
-        </Flex>
-        <Flex justifyContent="flex-end" height="4rem">
-          <Flex justifyContent="center" alignItems="center" width="10rem">
-            {userInfo._id === userId ? (
-              <Box
-                width="100%"
-                onClick={() => setShowModal((showModal) => !showModal)}
-              >
-                <ButtonRounded height={"3rem"} px={16} py={0}>
-                  <Text>Edit</Text>
-                </ButtonRounded>
-              </Box>
-            ) : (
-              <Box onClick={() => followOrUnfollowUser(userId)} width="100%">
-                <ButtonRounded height={"3rem"} px={16} py={0}>
-                  <Text>{isFollowing ? "following" : "follow"}</Text>
-                </ButtonRounded>
-              </Box>
-            )}
-          </Flex>
-        </Flex>
-        <Flex px="2rem" flexDirection="column" minHeight="4rem" py="1rem">
-          <Text fontSize="x-large">{user?.name}</Text>
-          <Text fontSize="large" color="var(--color-gray-700)">
-            @{user?.userName}
-          </Text>
-          <Text fontSize="large" mt="2rem">
-            Here to Rave..
-          </Text>
-        </Flex>
-        <Flex height="2rem"></Flex>
 
-        <TabWrapper height="3.5rem">
-          <Tab
-            onClick={() => setShow("post")}
-            width="30%"
-            py="1rem"
-            borderBottom={
-              show === "post" ? "3px solid var(--color-gray-300)" : null
-            }
-          >
-            <Text textAlign="center" fontSize="large">
-              Posts
-            </Text>
-          </Tab>
-          <Tab
-            width="30%"
-            py="1rem"
-            borderBottom={
-              show === "followers" ? "3px solid var(--color-gray-300)" : null
-            }
-            onClick={() => setShow("followers")}
-          >
-            <Text textAlign="center">Followers</Text>
-          </Tab>
-          <Tab
-            width="30%"
-            py="1rem"
-            borderBottom={
-              show === "following" ? "3px solid var(--color-gray-300)" : null
-            }
-            onClick={() => setShow("following")}
-          >
-            <Text textAlign="center">Folllowing</Text>
-          </Tab>
-        </TabWrapper>
+        {loading ? (
+          <ProfileLoader />
+        ) : (
+          <>
+            <Flex>
+              <CoverWrapper width={["25rem", "30rem", "40rem"]} height="16rem">
+                <img
+                  src={user?.coverImage + `?scale=145`}
+                  alt=""
+                  className="coverImage"
+                />
+                <ProfileWrapper>
+                  <img
+                    src={user?.avatarImage + `?scale=110`}
+                    alt=""
+                    className="profileImage"
+                  />
+                </ProfileWrapper>
+              </CoverWrapper>
+            </Flex>
+            <Flex justifyContent="flex-end" height="4rem">
+              <Flex justifyContent="center" alignItems="center" width="10rem">
+                {userInfo._id === userId ? (
+                  <Box
+                    width="100%"
+                    onClick={() => setShowModal((showModal) => !showModal)}
+                  >
+                    <ButtonRounded height={"3rem"} px={16} py={0}>
+                      <Text>Edit</Text>
+                    </ButtonRounded>
+                  </Box>
+                ) : (
+                  <Box
+                    onClick={() => followOrUnfollowUser(userId)}
+                    width="100%"
+                  >
+                    <ButtonRounded height={"3rem"} px={16} py={0}>
+                      <Text>{isFollowing ? "following" : "follow"}</Text>
+                    </ButtonRounded>
+                  </Box>
+                )}
+              </Flex>
+            </Flex>
+            <Flex px="2rem" flexDirection="column" minHeight="4rem" py="1rem">
+              <Text fontSize="x-large">{user?.name}</Text>
+              <Text fontSize="large" color="var(--color-gray-700)">
+                @{user?.userName}
+              </Text>
+              <Text fontSize="large" mt="2rem">
+                Here to Rave..
+              </Text>
+            </Flex>
+            <Flex height="2rem"></Flex>
+
+            <TabWrapper height="3.5rem">
+              <Tab
+                onClick={() => setShow("post")}
+                width="30%"
+                py="1rem"
+                borderBottom={
+                  show === "post" ? "3px solid var(--color-gray-300)" : null
+                }
+              >
+                <Text textAlign="center" fontSize="large">
+                  Posts
+                </Text>
+              </Tab>
+              <Tab
+                width="30%"
+                py="1rem"
+                borderBottom={
+                  show === "followers"
+                    ? "3px solid var(--color-gray-300)"
+                    : null
+                }
+                onClick={() => setShow("followers")}
+              >
+                <Text textAlign="center">Followers</Text>
+              </Tab>
+              <Tab
+                width="30%"
+                py="1rem"
+                borderBottom={
+                  show === "following"
+                    ? "3px solid var(--color-gray-300)"
+                    : null
+                }
+                onClick={() => setShow("following")}
+              >
+                <Text textAlign="center">Folllowing</Text>
+              </Tab>
+            </TabWrapper>
+          </>
+        )}
 
         {show === "post" && <ProfilePosts userPosts={userPosts} />}
         {show === "followers" && <ProfileFollowers userId={userId} />}
