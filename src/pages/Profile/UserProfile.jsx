@@ -24,7 +24,6 @@ import { ButtonRounded } from "../../components/Button";
 import EditProfile from "../../components/Form/EditProfile";
 import ProfileLoader from "../../components/Loaders/ProfileLoader";
 import { User } from "react-feather";
-import ConnectionLoader from "../../components/Loaders/ConnectionLoader";
 
 export const UserProfile = () => {
   const [show, setShow] = useState("post");
