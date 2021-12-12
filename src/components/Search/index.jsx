@@ -52,7 +52,7 @@ export const Search = () => {
   });
 
   return (
-    <div style={{ position: "absolute", right: 20, top: "1.5rem" }}>
+    <div style={{ position: "fixed", right: 20, top: "1.5rem" }}>
       <div className="search-container">
         <input
           className="search expandright"
