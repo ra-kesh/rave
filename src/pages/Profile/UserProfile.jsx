@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Layout from "../../components/Layout";
 import {
   Box,
@@ -23,7 +23,7 @@ import {
 import { ButtonRounded } from "../../components/Button";
 import EditProfile from "../../components/Form/EditProfile";
 import ProfileLoader from "../../components/Loaders/ProfileLoader";
-import { User } from "react-feather";
+import { ArrowLeft, User } from "react-feather";
 
 export const UserProfile = () => {
   const [show, setShow] = useState("post");
@@ -38,6 +38,7 @@ export const UserProfile = () => {
   const isFollowing = userFollowing?.find((user) => user._id === userId);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const followOrUnfollowUser = (userId) => {
     if (isFollowing) {
@@ -71,9 +72,18 @@ export const UserProfile = () => {
     <Layout>
       <Flex flexDirection="column">
         <Flex alignItems="center" justifyContent="space-between">
-          <Box px={"1rem"}>
+          <Flex
+            alignItems="center"
+            justifyContent="space-between"
+            width={["35%", "30%", "22%"]}
+          >
+            <Box onClick={() => navigate(-1)} cursor="pointer">
+              <ArrowLeft />
+            </Box>
+
             <h1>Profile</h1>
-          </Box>
+          </Flex>
+
           <Box px={"1rem"}>
             <User />
           </Box>
