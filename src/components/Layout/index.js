@@ -2,7 +2,8 @@ import { useState } from "react";
 import AddPost from "../Post/AddPost";
 import { Sidebar } from "../Sidebar";
 import { Flex, ModalOverlay, ModalWrapper } from "../Util";
-// import MediaQuery from "react-responsive";
+import MediaQuery from "react-responsive";
+import { Search } from "../Search";
 // import styled from "styled-components";
 
 // const RaveWrapper = styled(Flex)`
@@ -17,6 +18,7 @@ import { Flex, ModalOverlay, ModalWrapper } from "../Util";
 
 const Layout = ({ children }) => {
   const [showModal, setShowModal] = useState(false);
+
   return (
     <>
       <Flex justifyContent="space-between" flexDirection="row">
@@ -35,11 +37,9 @@ const Layout = ({ children }) => {
         // alignItems="center"
         // justifyContent="space-between"
         >
-          {/* <MediaQuery minWidth={"60rem"}>
-            <Flex width={["8rem"]}>
-              <button>rave</button>
-            </Flex>
-          </MediaQuery> */}
+          <MediaQuery minWidth={"70rem"}>
+            <Search />
+          </MediaQuery>
         </Flex>
         {showModal && (
           <ModalWrapper p={"5rem"}>
