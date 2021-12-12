@@ -115,11 +115,13 @@ const postSlice = createSlice({
       state.loading = false;
       state.error = action.payload.error;
     },
+
     [likePostAsync.pending]: (state, action) => {
-      state.loading = true;
+      // state.loading = true;
     },
+
     [likePostAsync.fulfilled]: (state, action) => {
-      state.loading = false;
+      // state.loading = false;
       state.posts = state.posts.map((post) => {
         if (post._id === action.payload.postId) {
           post = action.payload.updatedPost;
@@ -139,15 +141,18 @@ const postSlice = createSlice({
         return post;
       });
     },
+
     [likePostAsync.rejected]: (state, action) => {
-      state.loading = false;
+      // state.loading = false;
       state.error = action.payload.error;
     },
+
     [disLikePostAsync.pending]: (state, action) => {
-      state.loading = true;
+      // state.loading = true;
     },
+
     [disLikePostAsync.fulfilled]: (state, action) => {
-      state.loading = false;
+      // state.loading = false;
       state.posts = state.posts.map((post) => {
         if (post._id === action.payload.postId) {
           post = action.payload.updatedPost;
@@ -168,7 +173,7 @@ const postSlice = createSlice({
       });
     },
     [disLikePostAsync.rejected]: (state, action) => {
-      state.loading = false;
+      // state.loading = false;
       state.error = action.payload.error;
     },
   },
