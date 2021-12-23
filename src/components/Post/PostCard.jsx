@@ -125,10 +125,9 @@ const PostCard = ({ post }) => {
           )}
         </UserDetailWrapper>
         <Flex
+          cursor="pointer"
           minHeight={"5rem"}
-          // onClick={() =>
-          //   path !== `/post/${post._id}` ? navigate(`/post/${_id}`) : null
-          // }
+          onClick={() => setShowComments((showComments) => !showComments)}
         >
           <p>{post.content}</p>
         </Flex>
