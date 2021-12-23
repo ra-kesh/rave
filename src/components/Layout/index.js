@@ -4,6 +4,7 @@ import { Sidebar } from "../Sidebar";
 import { Flex, ModalOverlay, ModalWrapper } from "../Util";
 import MediaQuery from "react-responsive";
 import { Search } from "../Search";
+import { Rave } from "../Rave";
 // import styled from "styled-components";
 
 // const RaveWrapper = styled(Flex)`
@@ -32,13 +33,10 @@ const Layout = ({ children }) => {
         >
           {children}
         </Flex>
-        <Flex
-        // flexDirection="column"
-        // alignItems="center"
-        // justifyContent="space-between"
-        >
+        <Flex>
           <MediaQuery minWidth={"70rem"}>
             <Search />
+            <Rave setShowModal={setShowModal} />
           </MediaQuery>
         </Flex>
         {showModal && (
