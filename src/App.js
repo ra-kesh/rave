@@ -17,11 +17,17 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
-        <PrivateRoute path="/people" element={<People />} />
-        <PrivateRoute path="/" element={<Home />} />
-        <PrivateRoute path="/feed" element={<Feed />} />
-        <PrivateRoute path="/post/:postId" element={<PostDetail />} />
-        <PrivateRoute path="/user/:userId" element={<UserProfile />} />
+        <Route path="/people" element={<PrivateRoute Component={People} />} />
+        <Route path="/" element={<PrivateRoute Component={Home} />} />
+        <Route path="/feed" element={<PrivateRoute Component={Feed} />} />
+        <Route
+          path="/post/:postId"
+          element={<PrivateRoute Component={PostDetail} />}
+        />
+        <Route
+          path="/user/:userId"
+          element={<PrivateRoute Component={UserProfile} />}
+        />
       </Routes>
     </div>
   );
