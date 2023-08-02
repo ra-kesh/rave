@@ -16,7 +16,11 @@ export const SignUp = () => {
   }, [auth, navigate]);
   return (
     <Flex justifyContent="center" alignItems="center" flexDirection="column">
-      <h3>{auth.error ? "something went wrong ...try again" : null}</h3>
+      <h3>
+        {auth.error
+          ? "something went wrong, maybe try again with diffrent credentials"
+          : null}
+      </h3>
       <SignUpForm />
     </Flex>
   );
