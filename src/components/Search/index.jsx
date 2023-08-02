@@ -29,8 +29,6 @@ export const Search = () => {
     dispatch(fetchAllUsers());
   }, [dispatch]);
 
-  console.log(users);
-
   const filteredUsers = users?.filter((user) => {
     const { name, userName, bio, website, email, location } = user;
 
