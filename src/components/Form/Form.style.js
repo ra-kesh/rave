@@ -61,6 +61,23 @@ export const StyledButton = styled.button`
     background-color: black;
   }
 `;
+export const StyledButtonOutline = styled.button`
+  display: block;
+  background-color: var(--color-gray-100);
+  color: black;
+  font-size: 14px;
+  border: 1;
+  border-color: var(--color-gray-200);
+  border-radius: 5px;
+  height: 40px;
+  padding: 0 24px;
+  cursor: pointer;
+  box-sizing: border-box;
+  margin-left: 1rem;
+  &:hover {
+    background-color: var(--color-gray-300);
+  }
+`;
 
 export const StyledFieldset = styled.fieldset`
   border: 1px solid #ddd;
