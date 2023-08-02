@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import {
   StyledButton,
+  StyledButtonOutline,
   StyledError,
   StyledForm,
   FormWrapper,
@@ -8,6 +9,8 @@ import {
 } from "./Form.style";
 import { useDispatch } from "react-redux";
 import { userSignup } from "../../features/auth/authServices";
+import { Flex } from "../Util";
+import { useNavigate } from "react-router-dom";
 
 const initialState = {
   name: "someone",
@@ -17,11 +20,20 @@ const initialState = {
   confirmPassword: "someone",
 };
 
+const ErrorDiv = ({ error }) => {
+  return (
+    <StyledError>
+      <p>{error}</p>
+    </StyledError>
+  );
+};
+
 export const SignUpForm = () => {
   const [data, setData] = useState(initialState);
   const [error, setError] = useState("");
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -44,14 +56,6 @@ export const SignUpForm = () => {
     const inputName = e.currentTarget.name;
     const value = e.currentTarget.value;
     setData((prev) => ({ ...prev, [inputName]: value }));
-  };
-
-  const ErrorDiv = () => {
-    return (
-      <StyledError>
-        <p>{error}</p>
-      </StyledError>
-    );
   };
 
   return (
@@ -100,8 +104,18 @@ export const SignUpForm = () => {
             onChange={handleInput}
           />
 
-          {error && <ErrorDiv />}
-          <StyledButton type="submit">submit</StyledButton>
+          {error && <ErrorDiv error={error} />}
+          <Flex>
+            <StyledButton type="submit">submit</StyledButton>
+            <StyledButtonOutline
+              onClick={(e) => {
+                e.preventDefault();
+                navigate(-1);
+              }}
+            >
+              back
+            </StyledButtonOutline>
+          </Flex>
         </StyledForm>
       </FormWrapper>
     </>
