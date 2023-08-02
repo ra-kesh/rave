@@ -1,11 +1,15 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { Navigate, Route } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
-export const PrivateRoute = ({ path, ...props }) => {
+export const PrivateRoute = ({ Component, path }) => {
   const auth = useSelector((state) => state.auth);
 
-  if (auth.userInfo) {
-    return <Route {...props} />;
-  } else return <Navigate to="/login" replace state={{ from: path }} />;
+  return auth.userInfo ? (
+    <>
+      <Component />
+    </>
+  ) : (
+    <Navigate to="/login" replace state={{ from: path }} />
+  );
 };
